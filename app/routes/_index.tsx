@@ -1,7 +1,7 @@
 import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { PrismaClient } from "@prisma/client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -52,6 +52,7 @@ export async function action({ request }: ActionFunctionArgs) {
 export default function Index() {
   let fetcher = useFetcher();
   const mails = useLoaderData<typeof loader>();
+  const [currentMail, setCurrentMail] = useState(mails[0]);
   const isLoading = fetcher.state === "loading";
   const isSubmitting = fetcher.state === "submitting";
 
@@ -200,16 +201,21 @@ export default function Index() {
             {mails.map((mail, index) => (
               <li
                 key={mail.id}
-                className={`rounded-md border-b p-4 ${
-                  index === 0 ? "bg-blue-600 text-white" : "bg-transparent"
+                className={`group cursor-pointer rounded-md border-b p-4 hover:bg-blue-600 hover:text-white ${
+                  mail.id === currentMail.id
+                    ? "bg-blue-600 text-white"
+                    : "bg-transparent"
                 }`}
+                onClick={() => setCurrentMail(mail)}
               >
                 <header>
                   <div className="flex items-start justify-between gap-4">
                     <h2 className="text-lg font-semibold">{mail.sender}</h2>
                     <span
                       className={`text-xs ${
-                        index === 0 ? "text-white/40" : "text-gray-400"
+                        mail.id === currentMail.id
+                          ? "text-white/40"
+                          : "text-gray-400"
                       }`}
                     >
                       {mail.date}
@@ -217,7 +223,13 @@ export default function Index() {
                   </div>
                   <h3>{mail.subject}</h3>
                 </header>
-                <p className={index === 0 ? "text-white/40" : "text-gray-400"}>
+                <p
+                  className={`group-hover:text-white/40 ${
+                    mail.id === currentMail.id
+                      ? "text-white/40"
+                      : "text-gray-400"
+                  }`}
+                >
                   {mail.content}
                 </p>
               </li>
@@ -232,8 +244,8 @@ export default function Index() {
               DR
             </div>
             <div>
-              <h2 className="font-bold">{mails[0].sender}</h2>
-              <h1 className="mb-0.5 text-sm">{mails[0].subject}</h1>
+              <h2 className="font-bold">{currentMail.sender}</h2>
+              <h1 className="mb-0.5 text-sm">{currentMail.subject}</h1>
               <p className="flex gap-2 text-sm">
                 <span>To:</span>
                 <span className="text-gray-600">{mails[0].receiver}</span>
@@ -241,10 +253,10 @@ export default function Index() {
             </div>
           </div>
           <div className="flex justify-between text-xs text-gray-400">
-            {mails[0].date}
+            {currentMail.date}
           </div>
         </header>
-        <div className="p-4">{mails[0].content}</div>
+        <div className="p-4">{currentMail.content}</div>
       </div>
     </main>
   );
