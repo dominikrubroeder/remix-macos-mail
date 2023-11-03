@@ -18,7 +18,7 @@ export async function loader() {
   let db = new PrismaClient();
   let mails = await db.mail.findMany();
 
-  return mails;
+  return mails.reverse();
 }
 
 export async function action({ request }: ActionFunctionArgs) {
