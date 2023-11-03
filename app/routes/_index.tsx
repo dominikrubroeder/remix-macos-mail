@@ -58,17 +58,16 @@ export default function Index() {
   useEffect(() => {
     const dialog = document.querySelector("dialog");
     const showButton = document.querySelector("dialog + button");
-    const closeButton = document.querySelector("dialog button");
+    const closeButton = document.querySelector("dialog button[title='Close']");
+    const minimizeButton = document.querySelector(
+      "dialog button[title='Minimize']",
+    );
 
-    if (!dialog || !showButton || !closeButton) return;
+    if (!dialog || !showButton || !closeButton || !minimizeButton) return;
 
-    showButton.addEventListener("click", () => {
-      dialog.showModal();
-    });
-
-    closeButton.addEventListener("click", () => {
-      dialog.close();
-    });
+    showButton.addEventListener("click", () => dialog.showModal());
+    minimizeButton.addEventListener("click", () => dialog.close());
+    closeButton.addEventListener("click", () => dialog.close());
   }, []);
 
   return (
@@ -92,8 +91,32 @@ export default function Index() {
               className="grid h-full grid-rows-[auto_1fr_auto]"
             >
               <header className="p-4">
-                <div className="flex justify-end">
-                  <button>Close</button>
+                <div className="group mb-4 flex gap-1">
+                  <button
+                    title="Close"
+                    aria-label="close"
+                    className="flex h-3 w-3 items-center justify-center rounded-full border bg-red-600"
+                  >
+                    <span className="invisible hidden text-xs text-gray-600 opacity-0 group-hover:visible group-hover:opacity-100">
+                      x
+                    </span>
+                  </button>
+                  <button
+                    title="Minimize"
+                    aria-label="minimize"
+                    className="flex h-3 w-3 items-center justify-center rounded-full border bg-yellow-400"
+                  >
+                    <span className="invisible hidden text-xs text-gray-600 opacity-0 group-hover:visible group-hover:opacity-100">
+                      -
+                    </span>
+                  </button>
+                  <button
+                    title="Scale"
+                    aria-label="sacle"
+                    className="flex h-3 w-3 items-center justify-center rounded-full border bg-green-600"
+                  >
+                    <span className="hidden">Scale</span>
+                  </button>
                 </div>
 
                 <div className="grid gap-2">
