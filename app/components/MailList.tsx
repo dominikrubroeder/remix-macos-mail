@@ -25,26 +25,27 @@ export default function MailList({
           <h2 className="text-lg font-semibold leading-none">Eingang</h2>
           <p className="leading-none">{mails.length} E-Mails</p>
         </div>
-        <dialog className="h-1/2 w-1/2 rounded">{children}</dialog>
+        {children}
         <button>New Mail</button>
       </header>
       {isLoading ? (
         <div>...</div>
       ) : (
         <ul className="grid gap-4 p-4">
-          {mails.map((mail, index) => (
-            <li
-              key={mail.id}
-              className={`group cursor-pointer rounded-md border-b p-4 hover:bg-blue-600 hover:text-white ${
-                mail.id === currentMail.id
-                  ? "bg-blue-600 text-white"
-                  : "bg-transparent"
-              }`}
-              onClick={() => setCurrentMail(mail)}
-            >
-              <MailListItem mail={mail} currentMail={currentMail} />
-            </li>
-          ))}
+          {mails.length > 0 &&
+            mails.map((mail, index) => (
+              <li
+                key={mail.id}
+                className={`group cursor-pointer rounded-md border-b p-4 hover:bg-blue-600 hover:text-white ${
+                  mail.id === currentMail.id
+                    ? "bg-blue-600 text-white"
+                    : "bg-transparent"
+                }`}
+                onClick={() => setCurrentMail(mail)}
+              >
+                <MailListItem mail={mail} currentMail={currentMail} />
+              </li>
+            ))}
         </ul>
       )}
     </div>

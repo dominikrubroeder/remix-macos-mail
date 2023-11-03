@@ -5,6 +5,13 @@ interface MailViewProps {
 }
 
 export default function MailView({ currentMail }: MailViewProps) {
+  if (!currentMail)
+    return (
+      <div className="flex min-h-screen items-center justify-center p-4 text-gray-400">
+        No Mails :)
+      </div>
+    );
+
   return (
     <div className="overflow-hidden overflow-y-scroll">
       <header className="sticky top-0 flex items-start justify-between bg-gray-100/90 p-4 px-8 backdrop-blur">
