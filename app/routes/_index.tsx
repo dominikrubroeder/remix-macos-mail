@@ -1,6 +1,7 @@
 import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { PrismaClient } from "@prisma/client";
+import { useEffect } from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -25,16 +26,25 @@ export async function action({ request }: ActionFunctionArgs) {
 
   let formData = await request.formData();
   let data = Object.fromEntries(formData);
-  console.log(data);
+  console.log("DATA", data);
+
+  if (
+    typeof data.receiver !== "string" ||
+    typeof data.sender !== "string" ||
+    typeof data.subject !== "string" ||
+    typeof data.content !== "string"
+  ) {
+    throw new Error("Bad request");
+  }
 
   return db.mail.create({
     data: {
-      title: "This is the first Email",
-      sender: "dominik.rubroeder@icloud.com",
-      subject: "Building the base UI",
-      receiver: "dominik.rubroeder@mediawave.de",
+      title: "This is the first custom Email!",
+      sender: data.sender,
+      subject: data.subject,
+      receiver: data.receiver,
       date: new Date().toDateString(),
-      content: "This is the mail content!",
+      content: data.content,
     },
   });
 }
@@ -44,6 +54,22 @@ export default function Index() {
   const mails = useLoaderData<typeof loader>();
   const isLoading = fetcher.state === "loading";
   const isSubmitting = fetcher.state === "submitting";
+
+  useEffect(() => {
+    const dialog = document.querySelector("dialog");
+    const showButton = document.querySelector("dialog + button");
+    const closeButton = document.querySelector("dialog button");
+
+    if (!dialog || !showButton || !closeButton) return;
+
+    showButton.addEventListener("click", () => {
+      dialog.showModal();
+    });
+
+    closeButton.addEventListener("click", () => {
+      dialog.close();
+    });
+  }, []);
 
   return (
     <main className="grid h-screen grid-cols-[1fr_2fr_4fr]">
@@ -55,20 +81,94 @@ export default function Index() {
         </ul>
       </div>
       <div className="overflow-hidden overflow-y-scroll border-r bg-gray-100">
-        <header className="sticky top-0 flex items-start justify-between bg-gray-100 p-4">
+        <header className="sticky top-0 flex items-start justify-between bg-gray-100/90 p-4 backdrop-blur">
           <div className="grid gap-1">
             <h2 className="text-lg font-semibold leading-none">Eingang</h2>
             <p className="leading-none">{mails.length} E-Mails</p>
           </div>
-          <fetcher.Form method="post">
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="text-blue-400"
+          <dialog className="h-1/2 w-1/2 rounded">
+            <fetcher.Form
+              method="post"
+              className="grid h-full grid-rows-[auto_1fr_auto]"
             >
-              {isSubmitting ? "Add..." : "New Mail"}
-            </button>
-          </fetcher.Form>
+              <header className="p-4">
+                <div className="flex justify-end">
+                  <button>Close</button>
+                </div>
+
+                <div className="grid gap-2">
+                  <label
+                    title="To"
+                    className="flex gap-2 border-b pb-2 text-gray-400"
+                  >
+                    To:
+                    <input
+                      name="receiver"
+                      type="email"
+                      className="w-full text-gray-900 focus:outline-0"
+                      required
+                    />
+                  </label>
+
+                  <label
+                    title="copy"
+                    className="flex gap-2 border-b pb-2 text-gray-400"
+                  >
+                    Copy:
+                    <input
+                      name="copy"
+                      type="email"
+                      className="w-full text-gray-900 focus:outline-0"
+                    />
+                  </label>
+
+                  <label
+                    title="subject"
+                    className="flex gap-2 border-b pb-2 text-gray-400"
+                  >
+                    Subject:
+                    <input
+                      name="subject"
+                      type="text"
+                      className="w-full text-gray-900 focus:outline-0"
+                      required
+                    />
+                  </label>
+
+                  <label
+                    title="from"
+                    className="flex gap-2 border-b pb-2 text-gray-400"
+                  >
+                    From:
+                    <input
+                      name="sender"
+                      type="email"
+                      className="w-full text-gray-900 focus:outline-0"
+                      defaultValue="dominik.rubroeder@mediawave.de"
+                      required
+                    />
+                  </label>
+                </div>
+              </header>
+
+              <textarea
+                name="content"
+                className="w-full resize-none p-4 focus:outline-0"
+                required
+              />
+
+              <footer className="flex justify-end p-4">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="text-blue-400"
+                >
+                  {isSubmitting ? "Add..." : "Send"}
+                </button>
+              </footer>
+            </fetcher.Form>
+          </dialog>
+          <button>New Mail</button>
         </header>
         {isLoading ? (
           <div>...</div>
@@ -102,8 +202,26 @@ export default function Index() {
           </ul>
         )}
       </div>
-      <div className="overflow-hidden overflow-y-scroll p-4">
-        {mails[0].content}
+      <div className="overflow-hidden overflow-y-scroll">
+        <header className="sticky top-0 flex items-start justify-between bg-gray-100/90 p-4 px-8 backdrop-blur">
+          <div className="flex gap-4">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-sm">
+              DR
+            </div>
+            <div>
+              <h2 className="font-bold">{mails[0].sender}</h2>
+              <h1 className="mb-0.5 text-sm">{mails[0].subject}</h1>
+              <p className="flex gap-2 text-sm">
+                <span>To:</span>
+                <span className="text-gray-600">{mails[0].receiver}</span>
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-between text-xs text-gray-400">
+            {mails[0].date}
+          </div>
+        </header>
+        <div className="p-4">{mails[0].content}</div>
       </div>
     </main>
   );
