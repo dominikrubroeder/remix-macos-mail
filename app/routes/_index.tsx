@@ -34,10 +34,8 @@ export async function action({ request }: ActionFunctionArgs) {
   ) {
     throw new Error("Bad request");
   }
-
   return db.mail.create({
     data: {
-      title: "This is the first custom Email!",
       sender: data.sender,
       subject: data.subject,
       receiver: data.receiver,
