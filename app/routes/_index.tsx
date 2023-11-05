@@ -36,11 +36,14 @@ export async function action({ request }: ActionFunctionArgs) {
   }
   return db.mail.create({
     data: {
-      sender: data.sender,
+      sender: data.sender || "dominik.rubroeder@icloud.com",
       subject: data.subject,
       receiver: data.receiver,
       date: new Date().toDateString(),
       content: data.content,
+      mailbox: "iCloud",
+      isDraft: false,
+      flagged: false,
     },
   });
 }
@@ -165,7 +168,7 @@ export default function Index() {
                       name="sender"
                       type="email"
                       className="w-full text-gray-900 focus:outline-0"
-                      defaultValue="dominik.rubroeder@mediawave.de"
+                      defaultValue="dominik.rubroeder@icloud.com"
                       required
                     />
                   </label>

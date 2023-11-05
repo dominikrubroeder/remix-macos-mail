@@ -22,8 +22,11 @@ export default function MailList({
     <div className="overflow-hidden overflow-y-scroll border-r bg-gray-100">
       <header className="sticky top-0 flex items-start justify-between bg-gray-100/90 p-4 backdrop-blur">
         <div className="grid gap-1">
-          <h2 className="text-lg font-semibold leading-none">Eingang</h2>
-          <p className="leading-none">{mails.length} E-Mails</p>
+          <h2 className="text-lg font-semibold leading-none">Inbox</h2>
+          <p className="leading-none">
+            {mails.length}{" "}
+            {mails.length === 0 || mails.length > 1 ? "E-Mails" : "E-Mail"}
+          </p>
         </div>
         {children}
         <button>New Mail</button>
@@ -33,7 +36,7 @@ export default function MailList({
       ) : (
         <ul className="grid gap-4 p-4">
           {mails.length > 0 &&
-            mails.map((mail, index) => (
+            mails.map((mail) => (
               <li
                 key={mail.id}
                 className={`group cursor-pointer rounded-md border-b p-4 hover:bg-blue-600 hover:text-white ${

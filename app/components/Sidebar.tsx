@@ -1,6 +1,6 @@
 import type { Mail, Mailbox as IMailbox } from "../../prisma/types";
 import Mailbox from "../components/Mailbox";
-import IntelligentInboxFolder from "~/components/IntelligentMailboxFolder";
+import IntelligentInboxFolder from "../components/IntelligentInboxFolder";
 
 interface SidebarProps {
   mails: Mail[];
@@ -10,22 +10,36 @@ export default function Sidebar({ mails }: SidebarProps) {
   const mailboxes: IMailbox[] = [
     {
       title: "Favorites",
-      inbox: [...mails],
-      flagged: [],
-      drafts: [],
-      send: [],
+      inbox: [
+        ...mails.filter(
+          (mail) => mail.sender !== "dominik.rubroeder@icloud.com",
+        ),
+      ],
+      flagged: [...mails.filter((mail) => mail.flagged)],
+      drafts: [...mails.filter((mail) => mail.isDraft)],
+      send: [
+        ...mails.filter(
+          (mail) => mail.sender === "dominik.rubroeder@icloud.com",
+        ),
+      ],
     },
     {
       title: "iCloud",
-      inbox: [...mails.filter((mail) => mail.inbox === "iCloud")],
+      inbox: [
+        ...mails.filter(
+          (mail) =>
+            mail.mailbox === "iCloud" &&
+            mail.sender !== "dominik.rubroeder@icloud.com",
+        ),
+      ],
       flagged: [
-        ...mails.filter((mail) => mail.inbox === "iCloud" && mail.flagged),
+        ...mails.filter((mail) => mail.mailbox === "iCloud" && mail.flagged),
       ],
       drafts: [],
       send: [
         ...mails.filter(
           (mail) =>
-            mail.inbox === "iCloud" &&
+            mail.mailbox === "iCloud" &&
             mail.sender === "dominik.rubroeder@icloud.com",
         ),
       ],

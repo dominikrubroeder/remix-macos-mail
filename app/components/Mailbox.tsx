@@ -1,7 +1,7 @@
 import type { Mailbox } from "../../prisma/types";
 import { useState } from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
-import MailboxInboxFolder from "~/components/MailboxInboxFolder";
+import InboxFolder from "~/components/InboxFolder";
 
 interface MailboxProps {
   mailbox: Mailbox;
@@ -30,19 +30,16 @@ export default function Mailbox({
       {isOpen && (
         <ul className="grid gap-1 pl-4">
           <li>
-            <MailboxInboxFolder title="Inbox" count={mailbox.inbox.length} />
+            <InboxFolder title="Inbox" count={mailbox.inbox.length} />
           </li>
           <li>
-            <MailboxInboxFolder
-              title="Flagged"
-              count={mailbox.flagged.length}
-            />
+            <InboxFolder title="Flagged" count={mailbox.flagged.length} />
           </li>
           <li>
-            <MailboxInboxFolder title="Drafts" count={0} />
+            <InboxFolder title="Drafts" count={0} />
           </li>
           <li>
-            <MailboxInboxFolder title="Send" count={mailbox.send.length} />
+            <InboxFolder title="Send" count={mailbox.send.length} />
           </li>
         </ul>
       )}

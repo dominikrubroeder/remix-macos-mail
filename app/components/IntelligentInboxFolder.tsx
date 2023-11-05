@@ -1,5 +1,5 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
-import MailboxInboxFolder from "~/components/MailboxInboxFolder";
+import InboxFolder from "~/components/InboxFolder";
 import { useState } from "react";
 import type { Mail } from "../../prisma/types";
 
@@ -36,7 +36,7 @@ export default function IntelligentInboxFolder() {
         <ul className="grid gap-1 pl-4">
           <li>
             {intelligentInboxes.map((intelligentInbox) => (
-              <MailboxInboxFolder
+              <InboxFolder
                 key={intelligentInbox.title}
                 title={intelligentInbox.title}
                 count={intelligentInbox.mails.length}

@@ -5,6 +5,9 @@ export interface Mail {
   receiver: string;
   date: string;
   content: string;
+  mailbox: string;
+  isDraft: boolean;
+  flagged: boolean;
 }
 
 export interface Mailbox {

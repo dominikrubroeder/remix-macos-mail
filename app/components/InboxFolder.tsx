@@ -3,10 +3,7 @@ interface MailboxFolderProps {
   count: number;
 }
 
-export default function MailboxInboxFolder({
-  title,
-  count,
-}: MailboxFolderProps) {
+export default function InboxFolder({ title, count }: MailboxFolderProps) {
   return (
     <div className="flex cursor-pointer justify-between gap-2 rounded bg-transparent p-2 hover:bg-gray-200">
       <span>{title}</span>

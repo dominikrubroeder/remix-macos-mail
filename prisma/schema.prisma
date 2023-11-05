@@ -11,10 +11,13 @@ datasource db {
 }
 
 model Mail {
-  id       Int    @id @default(autoincrement())
+  id       Int     @id @default(autoincrement())
   sender   String
   subject  String
   receiver String
   date     String
   content  String
+  mailbox  String
+  isDraft  Boolean
+  flagged  Boolean
 }
