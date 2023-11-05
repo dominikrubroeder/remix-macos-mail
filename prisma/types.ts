@@ -6,3 +6,11 @@ export interface Mail {
   date: string;
   content: string;
 }
+
+export interface Mailbox {
+  title: string;
+  inbox: Mail[];
+  flagged: Mail[];
+  drafts: Mail[];
+  send: Mail[];
+}

@@ -75,7 +75,7 @@ export default function Index() {
 
   return (
     <main className="grid h-screen grid-cols-[1fr_2fr_4fr]">
-      <Sidebar />
+      <Sidebar mails={mails} />
       <MailList
         mails={mails}
         currentMail={currentMail}
