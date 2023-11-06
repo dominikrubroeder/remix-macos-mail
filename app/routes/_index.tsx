@@ -5,6 +5,9 @@ import { useEffect, useRef, useState } from "react";
 import Sidebar from "~/components/Sidebar";
 import MailView from "~/components/MailView";
 import MailList from "~/components/MailList";
+import LabelInputGroup, {
+  formInputGroupsData,
+} from "~/components/LabelInputGroup";
 
 export const meta: MetaFunction = () => {
   return [
@@ -124,63 +127,22 @@ export default function Index() {
                 </div>
 
                 <div className="grid gap-2">
-                  <label
-                    title="To"
-                    className="flex gap-2 border-b pb-2 text-gray-400"
-                  >
-                    To:
-                    <input
-                      name="receiver"
-                      type="email"
-                      className="w-full text-gray-900 focus:outline-0"
-                      required
+                  {formInputGroupsData.map((formInputGroup) => (
+                    <LabelInputGroup
+                      key={formInputGroup.labelTitle}
+                      labelTitle={formInputGroup.labelTitle}
+                      inputName={formInputGroup.inputName}
+                      inputType={formInputGroup.inputType}
+                      required={formInputGroup.required}
+                      defaultValue={formInputGroup.defaultValue}
                     />
-                  </label>
-
-                  <label
-                    title="copy"
-                    className="flex gap-2 border-b pb-2 text-gray-400"
-                  >
-                    Copy:
-                    <input
-                      name="copy"
-                      type="email"
-                      className="w-full text-gray-900 focus:outline-0"
-                    />
-                  </label>
-
-                  <label
-                    title="subject"
-                    className="flex gap-2 border-b pb-2 text-gray-400"
-                  >
-                    Subject:
-                    <input
-                      name="subject"
-                      type="text"
-                      className="w-full text-gray-900 focus:outline-0"
-                      required
-                    />
-                  </label>
-
-                  <label
-                    title="from"
-                    className="flex gap-2 border-b pb-2 text-gray-400"
-                  >
-                    From:
-                    <input
-                      name="sender"
-                      type="email"
-                      className="w-full text-gray-900 focus:outline-0"
-                      defaultValue="dominik.rubroeder@icloud.com"
-                      required
-                    />
-                  </label>
+                  ))}
                 </div>
               </header>
 
               <textarea
                 name="content"
-                className="w-full resize-none p-4 focus:outline-0"
+                className="w-full resize-none border-none p-4 focus:border-none focus:outline-0 active:border-none"
                 required
               />
 
@@ -190,7 +152,7 @@ export default function Index() {
                   disabled={isSubmitting}
                   className="text-blue-400"
                   onClick={() => {
-                    dialogRef.current?.close();
+                    // dialogRef.current?.close();
                   }}
                 >
                   {isSubmitting ? "Add..." : "Send"}
