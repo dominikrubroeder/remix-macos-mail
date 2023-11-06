@@ -2,6 +2,7 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import InboxFolder from "~/components/InboxFolder";
 import { useState } from "react";
 import type { Mail } from "../../prisma/types";
+import { Cog8ToothIcon } from "@heroicons/react/24/outline";
 
 interface IntelligentInbox {
   title: string;
@@ -39,6 +40,7 @@ export default function IntelligentInboxFolder() {
               <InboxFolder
                 key={intelligentInbox.title}
                 title={intelligentInbox.title}
+                icon={<Cog8ToothIcon className="h-5 w-5 text-gray-400" />}
                 count={intelligentInbox.mails.length}
               />
             ))}

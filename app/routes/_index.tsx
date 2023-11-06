@@ -51,7 +51,9 @@ export async function action({ request }: ActionFunctionArgs) {
 export default function Index() {
   let fetcher = useFetcher();
   const mails = useLoaderData<typeof loader>();
-  const [currentMail, setCurrentMail] = useState(mails[0]);
+  const [currentMail, setCurrentMail] = useState(
+    mails.filter((mail) => mail.sender !== "dominik.rubroeder@icloud.com")[0],
+  );
   const dialogRef = useRef<HTMLDialogElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const isLoading = fetcher.state === "loading";
@@ -84,7 +86,8 @@ export default function Index() {
         currentMail={currentMail}
         setCurrentMail={setCurrentMail}
         isLoading={isLoading}
-      >
+      />
+      <MailView currentMail={currentMail}>
         <dialog ref={dialogRef} className="h-1/2 w-1/2 rounded">
           <fetcher.Form method="post" ref={formRef} className="h-full">
             <fieldset
@@ -196,8 +199,7 @@ export default function Index() {
             </fieldset>
           </fetcher.Form>
         </dialog>
-      </MailList>
-      <MailView currentMail={currentMail} />
+      </MailView>
     </main>
   );
 }

@@ -49,7 +49,7 @@ export default function Sidebar({ mails }: SidebarProps) {
   return (
     <div className="overflow-hidden overflow-y-scroll border-r bg-gray-100 p-4">
       <div className="grid gap-8">
-        <Mailbox mailbox={mailboxes[0]} openInitially={true} />
+        <Mailbox mailbox={mailboxes[0]} />
 
         <IntelligentInboxFolder />
 

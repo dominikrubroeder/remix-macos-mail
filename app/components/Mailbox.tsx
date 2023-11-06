@@ -2,6 +2,12 @@ import type { Mailbox } from "../../prisma/types";
 import { useState } from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import InboxFolder from "~/components/InboxFolder";
+import {
+  DocumentDuplicateIcon,
+  FlagIcon,
+  InboxIcon,
+  PaperAirplaneIcon,
+} from "@heroicons/react/24/outline";
 
 interface MailboxProps {
   mailbox: Mailbox;
@@ -10,7 +16,7 @@ interface MailboxProps {
 
 export default function Mailbox({
   mailbox,
-  openInitially = false,
+  openInitially = true,
 }: MailboxProps) {
   const [isOpen, setIsOpen] = useState(openInitially);
 
@@ -30,16 +36,32 @@ export default function Mailbox({
       {isOpen && (
         <ul className="grid gap-1 pl-4">
           <li>
-            <InboxFolder title="Inbox" count={mailbox.inbox.length} />
+            <InboxFolder
+              title="Inbox"
+              icon={<InboxIcon className="h-5 w-5 text-blue-400" />}
+              count={mailbox.inbox.length}
+            />
           </li>
           <li>
-            <InboxFolder title="Flagged" count={mailbox.flagged.length} />
+            <InboxFolder
+              title="Flagged"
+              icon={<FlagIcon className="h-5 w-5 text-blue-400" />}
+              count={mailbox.flagged.length}
+            />
           </li>
           <li>
-            <InboxFolder title="Drafts" count={0} />
+            <InboxFolder
+              title="Drafts"
+              icon={<DocumentDuplicateIcon className="h-5 w-5 text-blue-400" />}
+              count={0}
+            />
           </li>
           <li>
-            <InboxFolder title="Send" count={mailbox.send.length} />
+            <InboxFolder
+              title="Send"
+              icon={<PaperAirplaneIcon className="h-5 w-5 text-blue-400" />}
+              count={mailbox.send.length}
+            />
           </li>
         </ul>
       )}
