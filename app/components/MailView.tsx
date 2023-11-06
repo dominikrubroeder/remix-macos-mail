@@ -1,17 +1,16 @@
-import type { JSX } from "react";
 import type { Mail } from "../../prisma/types";
 import {
   EnvelopeIcon,
   FlagIcon,
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
+import { Link } from "@remix-run/react";
 
 interface MailViewProps {
   currentMail: Mail;
-  children: JSX.Element;
 }
 
-export default function MailView({ currentMail, children }: MailViewProps) {
+export default function MailView({ currentMail }: MailViewProps) {
   if (!currentMail)
     return (
       <div className="flex min-h-screen items-center justify-center p-4 text-gray-400">
@@ -27,10 +26,11 @@ export default function MailView({ currentMail, children }: MailViewProps) {
             <EnvelopeIcon className="h-5 w-5 font-bold text-gray-400" />
           </button>
           <div className="flex flex-wrap">
-            {children}
-            <button className="rounded bg-transparent p-2 hover:bg-gray-200">
-              <PencilSquareIcon className="h-5 w-5 font-bold text-gray-400" />
-            </button>
+            <Link to="/new-mail">
+              <button className="rounded bg-transparent p-2 hover:bg-gray-200">
+                <PencilSquareIcon className="h-5 w-5 font-bold text-gray-400" />
+              </button>
+            </Link>
             <button className="rounded bg-transparent p-2 hover:bg-gray-200">
               <FlagIcon className="h-5 w-5 font-bold text-gray-400" />
             </button>
