@@ -6,6 +6,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useOutletContext,
 } from "@remix-run/react";
 
 import styles from "./tailwind.css";
@@ -27,7 +28,9 @@ export default function App() {
       </head>
       <body>
         <Outlet
-          context={{ newMailDialog, setNewMailDialog } as OutletContextType}
+          context={
+            { newMailDialog, setNewMailDialog } satisfies OutletContextType
+          }
         />
         <ScrollRestoration />
         <Scripts />
@@ -35,4 +38,8 @@ export default function App() {
       </body>
     </html>
   );
+}
+
+export function useContext() {
+  return useOutletContext<OutletContextType>();
 }
