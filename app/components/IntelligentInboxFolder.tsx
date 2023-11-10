@@ -1,7 +1,7 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import InboxFolder from "~/components/InboxFolder";
 import { useState } from "react";
-import type { Mail } from "../../prisma/types";
+import type { Mail } from "@prisma/client";
 import { Cog8ToothIcon } from "@heroicons/react/24/outline";
 
 interface IntelligentInbox {
