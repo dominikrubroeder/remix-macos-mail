@@ -1,18 +1,16 @@
-import { EnvelopeIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import FlagMailButton from "~/components/FlagMailButton";
 import type { Mail } from "@prisma/client";
-import { useOutletContext } from "@remix-run/react";
-import type { OutletContextType } from "../../prisma/types";
+import GetNewMailsButton from "~/components/GetNewMailsButton";
+import { useContext } from "~/root";
 
 export default function MailView({ mail }: { mail: Mail | undefined }) {
-  const { setNewMailDialog } = useOutletContext<OutletContextType>();
+  const { setNewMailDialog } = useContext();
   return (
     <div className="grid min-h-screen grid-rows-[auto_1fr] overflow-hidden overflow-y-scroll">
       <header className="sticky top-0 grid gap-4 bg-gray-100/90 p-4 px-8 backdrop-blur">
         <div className="flex flex-wrap items-center gap-4">
-          <button className="rounded bg-transparent p-2 hover:bg-gray-200">
-            <EnvelopeIcon className="h-5 w-5 font-bold text-gray-400" />
-          </button>
+          <GetNewMailsButton />
           <div className="flex flex-wrap">
             <button
               className="rounded bg-transparent p-2 hover:bg-gray-200"

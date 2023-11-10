@@ -27,6 +27,7 @@ export async function action({ request }: ActionFunctionArgs) {
       mailbox: "iCloud",
       isDraft: false,
       flagged: false,
+      isCurrentMail: false,
     },
   });
 

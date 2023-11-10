@@ -1,13 +1,12 @@
-import { useFetcher, useOutletContext } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import LabelInputGroup, {
   formInputGroupsData,
 } from "~/components/form/LabelInputGroup";
-import type { OutletContextType } from "../../prisma/types";
+import { useContext } from "~/root";
 
 export default function NewMailDialog() {
-  const { newMailDialog, setNewMailDialog } =
-    useOutletContext<OutletContextType>();
+  const { newMailDialog, setNewMailDialog } = useContext();
   let fetcher = useFetcher();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
