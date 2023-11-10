@@ -7,14 +7,9 @@ import { useFetcher } from "@remix-run/react";
 interface MailListProps {
   mails: Mail[];
   currentMail: Mail;
-  isLoading: boolean;
 }
 
-export default function MailList({
-  mails,
-  currentMail,
-  isLoading,
-}: MailListProps) {
+export default function MailList({ mails, currentMail }: MailListProps) {
   const fetcher = useFetcher({ key: "mail.current" });
   const inboxMails = mails.filter(
     (mail) => mail.sender !== "dominik.rubroeder@icloud.com",
@@ -34,32 +29,28 @@ export default function MailList({
           <FunnelIcon className="h-5 w-5 font-bold text-gray-400" />
         </button>
       </header>
-      {isLoading ? (
-        <div>...</div>
-      ) : (
-        <ul className="grid gap-4 p-4">
-          {inboxMails.length > 0 &&
-            inboxMails.map((mail) => (
-              <li
-                key={mail.id}
-                className={`group cursor-pointer rounded-md border-b p-4 hover:bg-blue-600 hover:text-white ${
-                  mail.id === currentMail.id
-                    ? "bg-blue-600 text-white"
-                    : "bg-transparent"
-                }`}
+      <ul className="grid gap-4 p-4">
+        {inboxMails.length > 0 &&
+          inboxMails.map((mail) => (
+            <li
+              key={mail.id}
+              className={`group cursor-pointer rounded-md border-b p-4 hover:bg-blue-600 hover:text-white ${
+                mail.id === currentMail.id
+                  ? "bg-blue-600 text-white"
+                  : "bg-transparent"
+              }`}
+            >
+              <fetcher.Form
+                method="post"
+                action={`/mail/current/set/${mail.id}`}
               >
-                <fetcher.Form
-                  method="post"
-                  action={`/mail/current/set/${mail.id}`}
-                >
-                  <button className="text-left" type="submit">
-                    <MailListItem mail={mail} currentMail={currentMail} />
-                  </button>
-                </fetcher.Form>
-              </li>
-            ))}
-        </ul>
-      )}
+                <button className="text-left" type="submit">
+                  <MailListItem mail={mail} currentMail={currentMail} />
+                </button>
+              </fetcher.Form>
+            </li>
+          ))}
+      </ul>
     </div>
   );
 }
