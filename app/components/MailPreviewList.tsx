@@ -1,10 +1,10 @@
-import MailListItem from "~/components/MailListItem";
+import MailPreview from "~/components/MailPreview";
 
 import type { Mail } from "@prisma/client";
 import { FunnelIcon } from "@heroicons/react/24/outline";
 import { useFetcher } from "@remix-run/react";
 
-export default function MailList({ mails }: { mails: Mail[] }) {
+export default function MailPreviewList({ mails }: { mails: Mail[] }) {
   const fetcher = useFetcher({ key: "mail.current" });
   const inboxMails = mails.filter(
     (mail) => mail.sender !== "dominik.rubroeder@icloud.com",
@@ -16,7 +16,7 @@ export default function MailList({ mails }: { mails: Mail[] }) {
         <div className="grid gap-1">
           <h2 className="text-lg font-semibold leading-none">Inbox</h2>
           <p className="leading-none">
-            {inboxMails.length}{" "}
+            {inboxMails.length}&nbsp;
             {inboxMails.length === 0 || mails.length > 1 ? "E-Mails" : "E-Mail"}
           </p>
         </div>
@@ -35,10 +35,10 @@ export default function MailList({ mails }: { mails: Mail[] }) {
             >
               <fetcher.Form
                 method="post"
-                action={`/mail/edit/${mail.id}/isCurrentMail`}
+                action={`/mail/edit/${mail.id}/isCurrentMail,read`}
               >
                 <button className="text-left" type="submit">
-                  <MailListItem mail={mail} />
+                  <MailPreview mail={mail} />
                 </button>
               </fetcher.Form>
             </li>

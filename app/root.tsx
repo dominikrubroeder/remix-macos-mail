@@ -45,9 +45,9 @@ export function useContext() {
 }
 
 /** @TODO
- * - Delete
  * - Filter list
  * - Unread property
  * - Refine load new mails
  * - Animate New Mail appearance
+ * - Draft when click outside, Draft when click on Minimize
  * */

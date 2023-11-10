@@ -14,36 +14,95 @@ export async function action({ request, params }: ActionFunctionArgs) {
   let formData = await request.formData();
   let data = Object.fromEntries(formData);
 
-  switch (property) {
-    case "isCurrentMail":
-      await db.mail.updateMany({
-        data: {
-          isCurrentMail: false,
-        },
-      });
+  if (property.includes(",")) {
+    const properties = property.replace(" ", "").split(",");
 
-      await db.mail.update({
-        where: {
-          id: +mailId,
-        },
-        data: {
-          isCurrentMail: true,
-        },
-      });
-      break;
-    case "flag":
-      await db.mail.update({
-        where: {
-          id: +mailId,
-        },
-        data: {
-          flagged: data.flagged !== "on",
-        },
-      });
-      break;
-    default:
-      return redirect("/");
+    for (const property of properties) {
+      switch (property) {
+        case "isCurrentMail":
+          await db.mail.updateMany({
+            data: {
+              isCurrentMail: false,
+            },
+          });
+
+          await db.mail.update({
+            where: {
+              id: +mailId,
+            },
+            data: {
+              isCurrentMail: true,
+            },
+          });
+          break;
+        case "read":
+          await db.mail.update({
+            where: {
+              id: +mailId,
+            },
+            data: {
+              read: true,
+            },
+          });
+          break;
+        case "flag":
+          await db.mail.update({
+            where: {
+              id: +mailId,
+            },
+            data: {
+              flagged: data.flagged !== "on",
+            },
+          });
+          break;
+        default:
+          redirect("/");
+      }
+    }
+  } else {
+    switch (property) {
+      case "isCurrentMail":
+        await db.mail.updateMany({
+          data: {
+            isCurrentMail: false,
+          },
+        });
+
+        await db.mail.update({
+          where: {
+            id: +mailId,
+          },
+          data: {
+            isCurrentMail: true,
+          },
+        });
+        break;
+      case "flag":
+        await db.mail.update({
+          where: {
+            id: +mailId,
+          },
+          data: {
+            flagged: data.flagged !== "on",
+          },
+        });
+        break;
+      case "draft":
+        await db.mail.update({
+          where: {
+            id: +mailId,
+          },
+          data: {
+            isDraft: true,
+          },
+        });
+        break;
+      default:
+        return redirect("/");
+    }
   }
 
   return redirect("/");
 }
+
+// async function excute() {}

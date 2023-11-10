@@ -3,7 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import { PrismaClient } from "@prisma/client";
 import Sidebar from "~/components/Sidebar";
 import MailView from "~/components/MailView";
-import MailList from "~/components/MailList";
+import MailPreviewList from "~/components/MailPreviewList";
 import NewMailDialog from "~/components/NewMailDialog";
 
 export const meta: MetaFunction = () => {
@@ -30,7 +30,7 @@ export default function Index() {
     <main className="grid h-screen grid-cols-[1fr_2fr_4fr]">
       <NewMailDialog />
       <Sidebar mails={mails} />
-      <MailList mails={mails} />
+      <MailPreviewList mails={mails} />
       <MailView mail={currentMail} />
     </main>
   );

@@ -21,4 +21,5 @@ model Mail {
   isDraft       Boolean
   flagged       Boolean
   isCurrentMail Boolean @default(false)
+  read          Boolean @default(false)
 }
