@@ -12,7 +12,9 @@ export async function action({ params }: ActionFunctionArgs) {
 
   // Get mail with id from params
   let mails = await db.mail.findMany();
-  const currentMail = mails.find((mail) => mail.id === +params.mailId);
+  const currentMail = mails.find(
+    (mail) => params.mailId && mail.id === +params.mailId,
+  );
 
   if (!currentMail) {
     throw new Response("No matching Mail found", { status: 404 });
