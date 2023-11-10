@@ -21,3 +21,16 @@ model Mail {
   isDraft  Boolean
   flagged  Boolean
 }
+
+model CurrentMail {
+  dbId     Int     @id @default(autoincrement())
+  id       Int
+  sender   String
+  subject  String
+  receiver String
+  date     String
+  content  String
+  mailbox  String
+  isDraft  Boolean
+  flagged  Boolean
+}

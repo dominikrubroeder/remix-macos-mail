@@ -2,20 +2,20 @@ import MailListItem from "~/components/MailListItem";
 
 import type { Mail } from "../../prisma/types";
 import { FunnelIcon } from "@heroicons/react/24/outline";
+import { useFetcher } from "@remix-run/react";
 
 interface MailListProps {
   mails: Mail[];
   currentMail: Mail;
-  setCurrentMail: (mail: Mail) => void;
   isLoading: boolean;
 }
 
 export default function MailList({
   mails,
   currentMail,
-  setCurrentMail,
   isLoading,
 }: MailListProps) {
+  const fetcher = useFetcher({ key: "mail.current" });
   const inboxMails = mails.filter(
     (mail) => mail.sender !== "dominik.rubroeder@icloud.com",
   );
@@ -47,9 +47,15 @@ export default function MailList({
                     ? "bg-blue-600 text-white"
                     : "bg-transparent"
                 }`}
-                onClick={() => setCurrentMail(mail)}
               >
-                <MailListItem mail={mail} currentMail={currentMail} />
+                <fetcher.Form
+                  method="post"
+                  action={`/mail/current/set/${mail.id}`}
+                >
+                  <button className="text-left" type="submit">
+                    <MailListItem mail={mail} currentMail={currentMail} />
+                  </button>
+                </fetcher.Form>
               </li>
             ))}
         </ul>
