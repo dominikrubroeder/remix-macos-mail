@@ -10,7 +10,7 @@ export default function FlagMailButton({
 }) {
   const fetcher = useFetcher({ key: "flag-mail" });
   return (
-    <fetcher.Form method="post" action={`/flag-mail/${id}`}>
+    <fetcher.Form method="post" action={`/mail/flag/${id}`}>
       <input type="checkbox" name="flagged" hidden defaultChecked={flagged} />
       <button className="rounded bg-transparent p-2 hover:bg-gray-200">
         <FlagIcon

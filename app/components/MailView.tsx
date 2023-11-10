@@ -16,7 +16,7 @@ export default function MailView({ currentMail }: MailViewProps) {
             <EnvelopeIcon className="h-5 w-5 font-bold text-gray-400" />
           </button>
           <div className="flex flex-wrap">
-            <Link to="/new-mail">
+            <Link to="/mail/new">
               <button className="rounded bg-transparent p-2 hover:bg-gray-200">
                 <PencilSquareIcon className="h-5 w-5 font-bold text-gray-400" />
               </button>
