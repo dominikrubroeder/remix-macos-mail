@@ -1,9 +1,10 @@
 import type { MetaFunction } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { PrismaClient } from "@prisma/client";
 import Sidebar from "~/components/Sidebar";
 import MailView from "~/components/MailView";
 import MailList from "~/components/MailList";
+import NewMailDialog from "~/components/NewMailDialog";
 
 export const meta: MetaFunction = () => {
   return [
@@ -21,14 +22,13 @@ export async function loader() {
 }
 
 export default function Index() {
-  let fetcher = useFetcher();
   const { mails, currentMail } = useLoaderData<typeof loader>();
-  const isLoading = fetcher.state === "loading";
 
   return (
     <main className="grid h-screen grid-cols-[1fr_2fr_4fr]">
+      <NewMailDialog />
       <Sidebar mails={mails} />
-      <MailList mails={mails} currentMail={currentMail} isLoading={isLoading} />
+      <MailList mails={mails} currentMail={currentMail} />
       <MailView currentMail={currentMail} />
     </main>
   );

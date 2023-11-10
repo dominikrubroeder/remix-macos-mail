@@ -9,10 +9,14 @@ import {
 } from "@remix-run/react";
 
 import styles from "./tailwind.css";
+import { useState } from "react";
+import type { OutletContextType } from "../prisma/types";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 export default function App() {
+  const [newMailDialog, setNewMailDialog] = useState(false);
+
   return (
     <html lang="en">
       <head>
@@ -22,7 +26,9 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <Outlet
+          context={{ newMailDialog, setNewMailDialog } as OutletContextType}
+        />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

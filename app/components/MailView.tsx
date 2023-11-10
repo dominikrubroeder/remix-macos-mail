@@ -1,13 +1,15 @@
 import { EnvelopeIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
-import { Link } from "@remix-run/react";
 import FlagMailButton from "~/components/FlagMailButton";
 import type { Mail } from "@prisma/client";
+import { useOutletContext } from "@remix-run/react";
+import type { OutletContextType } from "../../prisma/types";
 
 interface MailViewProps {
   currentMail: Mail;
 }
 
 export default function MailView({ currentMail }: MailViewProps) {
+  const { setNewMailDialog } = useOutletContext<OutletContextType>();
   return (
     <div className="grid min-h-screen grid-rows-[auto_1fr] overflow-hidden overflow-y-scroll">
       <header className="sticky top-0 grid gap-4 bg-gray-100/90 p-4 px-8 backdrop-blur">
@@ -16,11 +18,12 @@ export default function MailView({ currentMail }: MailViewProps) {
             <EnvelopeIcon className="h-5 w-5 font-bold text-gray-400" />
           </button>
           <div className="flex flex-wrap">
-            <Link to="/mail/new">
-              <button className="rounded bg-transparent p-2 hover:bg-gray-200">
-                <PencilSquareIcon className="h-5 w-5 font-bold text-gray-400" />
-              </button>
-            </Link>
+            <button
+              className="rounded bg-transparent p-2 hover:bg-gray-200"
+              onClick={() => setNewMailDialog(true)}
+            >
+              <PencilSquareIcon className="h-5 w-5 font-bold text-gray-400" />
+            </button>
             {currentMail && (
               <FlagMailButton
                 id={currentMail.id}
