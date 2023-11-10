@@ -43,3 +43,11 @@ export default function App() {
 export function useContext() {
   return useOutletContext<OutletContextType>();
 }
+
+/** @TODO
+ * - Delete
+ * - Filter list
+ * - Unread property
+ * - Refine load new mails
+ * - Animate New Mail appearance
+ * */

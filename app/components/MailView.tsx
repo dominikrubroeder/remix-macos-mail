@@ -1,8 +1,9 @@
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
-import FlagMailButton from "~/components/FlagMailButton";
+import FlagMailButton from "~/components/mail-actions/FlagMailButton";
 import type { Mail } from "@prisma/client";
-import GetNewMailsButton from "~/components/GetNewMailsButton";
+import GetNewMailsButton from "~/components/mail-actions/GetNewMailsButton";
 import { useContext } from "~/root";
+import DeleteMailButton from "~/components/mail-actions/DeleteMailButton";
 
 export default function MailView({ mail }: { mail: Mail | undefined }) {
   const { setNewMailDialog } = useContext();
@@ -19,6 +20,7 @@ export default function MailView({ mail }: { mail: Mail | undefined }) {
               <PencilSquareIcon className="h-5 w-5 font-bold text-gray-400" />
             </button>
             {mail && <FlagMailButton id={mail.id} flagged={mail.flagged} />}
+            {mail && <DeleteMailButton mailId={mail.id} />}
           </div>
         </div>
 
