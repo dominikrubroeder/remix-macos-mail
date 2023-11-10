@@ -1,4 +1,5 @@
-import type { Mail, Mailbox as IMailbox } from "../../prisma/types";
+import type { Mail } from "@prisma/client";
+import type { Mailbox as IMailbox } from "../../prisma/types";
 import Mailbox from "../components/Mailbox";
 import IntelligentInboxFolder from "../components/IntelligentInboxFolder";
 

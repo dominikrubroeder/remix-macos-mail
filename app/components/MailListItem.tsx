@@ -1,19 +1,19 @@
-import type { Mail } from "../../prisma/types";
+import type { Mail } from "@prisma/client";
 
-interface MailListItemProps {
-  mail: Mail;
-  currentMail: Mail;
-}
-
-export default function MailListItem({ mail, currentMail }: MailListItemProps) {
+export default function MailListItem({ mail }: { mail: Mail }) {
   return (
     <>
       <header>
         <div className="flex items-start justify-between gap-4">
-          <h2 className="text-lg font-semibold">{mail.sender}</h2>
+          <h2 className="text-lg font-semibold">
+            <span className="inline-block font-normal text-gray-400">
+              {mail.id}
+            </span>{" "}
+            {mail.sender}
+          </h2>
           <span
             className={`text-xs ${
-              mail.id === currentMail.id ? "text-white/40" : "text-gray-400"
+              mail.isCurrentMail ? "text-white/40" : "text-gray-400"
             }`}
           >
             {mail.date}
@@ -23,7 +23,7 @@ export default function MailListItem({ mail, currentMail }: MailListItemProps) {
       </header>
       <p
         className={`group-hover:text-white/40 ${
-          mail.id === currentMail.id ? "text-white/40" : "text-gray-400"
+          mail.isCurrentMail ? "text-white/40" : "text-gray-400"
         }`}
       >
         {mail.content}

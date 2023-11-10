@@ -6,13 +6,18 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useOutletContext,
 } from "@remix-run/react";
 
 import styles from "./tailwind.css";
+import { useState } from "react";
+import type { OutletContextType } from "../prisma/types";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 export default function App() {
+  const [newMailDialog, setNewMailDialog] = useState(false);
+
   return (
     <html lang="en">
       <head>
@@ -22,7 +27,11 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <Outlet
+          context={
+            { newMailDialog, setNewMailDialog } satisfies OutletContextType
+          }
+        />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
@@ -30,3 +39,15 @@ export default function App() {
     </html>
   );
 }
+
+export function useContext() {
+  return useOutletContext<OutletContextType>();
+}
+
+/** @TODO
+ * - Delete
+ * - Filter list
+ * - Unread property
+ * - Refine load new mails
+ * - Animate New Mail appearance
+ * */

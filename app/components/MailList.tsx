@@ -1,21 +1,11 @@
 import MailListItem from "~/components/MailListItem";
 
-import type { Mail } from "../../prisma/types";
+import type { Mail } from "@prisma/client";
 import { FunnelIcon } from "@heroicons/react/24/outline";
+import { useFetcher } from "@remix-run/react";
 
-interface MailListProps {
-  mails: Mail[];
-  currentMail: Mail;
-  setCurrentMail: (mail: Mail) => void;
-  isLoading: boolean;
-}
-
-export default function MailList({
-  mails,
-  currentMail,
-  setCurrentMail,
-  isLoading,
-}: MailListProps) {
+export default function MailList({ mails }: { mails: Mail[] }) {
+  const fetcher = useFetcher({ key: "mail.current" });
   const inboxMails = mails.filter(
     (mail) => mail.sender !== "dominik.rubroeder@icloud.com",
   );
@@ -34,26 +24,26 @@ export default function MailList({
           <FunnelIcon className="h-5 w-5 font-bold text-gray-400" />
         </button>
       </header>
-      {isLoading ? (
-        <div>...</div>
-      ) : (
-        <ul className="grid gap-4 p-4">
-          {inboxMails.length > 0 &&
-            inboxMails.map((mail) => (
-              <li
-                key={mail.id}
-                className={`group cursor-pointer rounded-md border-b p-4 hover:bg-blue-600 hover:text-white ${
-                  mail.id === currentMail.id
-                    ? "bg-blue-600 text-white"
-                    : "bg-transparent"
-                }`}
-                onClick={() => setCurrentMail(mail)}
+      <ul className="grid gap-4 p-4">
+        {inboxMails.length > 0 &&
+          inboxMails.map((mail) => (
+            <li
+              key={mail.id}
+              className={`group cursor-pointer rounded-md border-b p-4 hover:bg-blue-600 hover:text-white ${
+                mail.isCurrentMail ? "bg-blue-600 text-white" : "bg-transparent"
+              }`}
+            >
+              <fetcher.Form
+                method="post"
+                action={`/mail/edit/${mail.id}/isCurrentMail`}
               >
-                <MailListItem mail={mail} currentMail={currentMail} />
-              </li>
-            ))}
-        </ul>
-      )}
+                <button className="text-left" type="submit">
+                  <MailListItem mail={mail} />
+                </button>
+              </fetcher.Form>
+            </li>
+          ))}
+      </ul>
     </div>
   );
 }
