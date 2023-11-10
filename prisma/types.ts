@@ -1,14 +1,4 @@
-export interface Mail {
-  id: number;
-  sender: string;
-  subject: string;
-  receiver: string;
-  date: string;
-  content: string;
-  mailbox: string;
-  isDraft: boolean;
-  flagged: boolean;
-}
+import type { Mail } from "@prisma/client";
 
 export interface Mailbox {
   title: string;

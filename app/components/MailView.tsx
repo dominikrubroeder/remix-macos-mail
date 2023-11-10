@@ -1,10 +1,10 @@
 import { EnvelopeIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import { Link } from "@remix-run/react";
 import FlagMailButton from "~/components/FlagMailButton";
-import type { CurrentMail } from "@prisma/client";
+import type { Mail } from "@prisma/client";
 
 interface MailViewProps {
-  currentMail: CurrentMail;
+  currentMail: Mail;
 }
 
 export default function MailView({ currentMail }: MailViewProps) {

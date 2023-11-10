@@ -1,4 +1,4 @@
-import type { Mail } from "../../prisma/types";
+import type { Mail } from "@prisma/client";
 
 interface MailListItemProps {
   mail: Mail;

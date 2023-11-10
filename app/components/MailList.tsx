@@ -1,6 +1,6 @@
 import MailListItem from "~/components/MailListItem";
 
-import type { Mail } from "../../prisma/types";
+import type { Mail } from "@prisma/client";
 import { FunnelIcon } from "@heroicons/react/24/outline";
 import { useFetcher } from "@remix-run/react";
 
