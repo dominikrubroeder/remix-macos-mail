@@ -35,7 +35,7 @@ export default function MailList({ mails }: { mails: Mail[] }) {
             >
               <fetcher.Form
                 method="post"
-                action={`/mail/current/set/${mail.id}`}
+                action={`/mail/edit/${mail.id}/isCurrentMail`}
               >
                 <button className="text-left" type="submit">
                   <MailListItem mail={mail} />
