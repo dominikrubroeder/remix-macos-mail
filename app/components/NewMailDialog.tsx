@@ -18,7 +18,9 @@ export default function NewMailDialog() {
     if (fetcher.state === "idle" && formRef.current) {
       formRef.current.reset();
     }
-  }, [fetcher.state]);
+
+    if (fetcher.state === "submitting") setNewMailDialog(false);
+  }, [fetcher.state, setNewMailDialog]);
 
   return newMailDialog ? (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
@@ -89,9 +91,6 @@ export default function NewMailDialog() {
                 type="submit"
                 disabled={isSubmitting}
                 className="text-blue-400"
-                onClick={() => {
-                  // dialogRef.current?.close();
-                }}
               >
                 {isSubmitting ? "Add..." : "Send"}
               </button>

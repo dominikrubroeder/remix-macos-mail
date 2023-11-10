@@ -7,23 +7,21 @@ export async function action({ params }: ActionFunctionArgs) {
     throw new Response("Not id found", { status: 404 });
   }
 
-  // Get db connection
   let db = new PrismaClient();
 
-  // Get mail with id from params
-  let mails = await db.mail.findMany();
-  const currentMail = mails.find(
-    (mail) => params.mailId && mail.id === +params.mailId,
-  );
-
-  if (!currentMail) {
-    throw new Response("No matching Mail found", { status: 404 });
-  }
-
   // Updating single value entry in Mail database
-  await db.currentMail.updateMany({
+  await db.mail.updateMany({
     data: {
-      ...currentMail,
+      isCurrentMail: false,
+    },
+  });
+
+  await db.mail.update({
+    where: {
+      id: +params.mailId,
+    },
+    data: {
+      isCurrentMail: true,
     },
   });
 

@@ -16,9 +16,11 @@ export const meta: MetaFunction = () => {
 export async function loader() {
   let db = new PrismaClient();
   let mails = await db.mail.findMany();
-  const currentMail = await db.currentMail.findMany();
 
-  return { mails: mails.reverse(), currentMail: currentMail[0] };
+  return {
+    mails: mails.reverse(),
+    currentMail: mails.find((mail) => mail.isCurrentMail),
+  };
 }
 
 export default function Index() {
@@ -28,8 +30,8 @@ export default function Index() {
     <main className="grid h-screen grid-cols-[1fr_2fr_4fr]">
       <NewMailDialog />
       <Sidebar mails={mails} />
-      <MailList mails={mails} currentMail={currentMail} />
-      <MailView currentMail={currentMail} />
+      <MailList mails={mails} />
+      <MailView mail={currentMail} />
     </main>
   );
 }

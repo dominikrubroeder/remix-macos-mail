@@ -4,11 +4,7 @@ import type { Mail } from "@prisma/client";
 import { useOutletContext } from "@remix-run/react";
 import type { OutletContextType } from "../../prisma/types";
 
-interface MailViewProps {
-  currentMail: Mail;
-}
-
-export default function MailView({ currentMail }: MailViewProps) {
+export default function MailView({ mail }: { mail: Mail | undefined }) {
   const { setNewMailDialog } = useOutletContext<OutletContextType>();
   return (
     <div className="grid min-h-screen grid-rows-[auto_1fr] overflow-hidden overflow-y-scroll">
@@ -24,39 +20,34 @@ export default function MailView({ currentMail }: MailViewProps) {
             >
               <PencilSquareIcon className="h-5 w-5 font-bold text-gray-400" />
             </button>
-            {currentMail && (
-              <FlagMailButton
-                id={currentMail.id}
-                flagged={currentMail.flagged}
-              />
-            )}
+            {mail && <FlagMailButton id={mail.id} flagged={mail.flagged} />}
           </div>
         </div>
 
-        {currentMail && (
+        {mail && (
           <div className="flex items-start justify-between gap-4">
             <div className="flex gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-sm">
                 DR
               </div>
               <div>
-                <h2 className="font-bold">{currentMail.sender}</h2>
-                <h1 className="mb-0.5 text-sm">{currentMail.subject}</h1>
+                <h2 className="font-bold">{mail.sender}</h2>
+                <h1 className="mb-0.5 text-sm">{mail.subject}</h1>
                 <p className="flex gap-2 text-sm">
                   <span>To:</span>
-                  <span className="text-gray-600">{currentMail.receiver}</span>
+                  <span className="text-gray-600">{mail.receiver}</span>
                 </p>
               </div>
             </div>
             <div className="flex justify-between text-xs text-gray-400">
-              {currentMail.date}
+              {mail.date}
             </div>
           </div>
         )}
       </header>
 
-      {currentMail ? (
-        <div className="p-4">{currentMail.content}</div>
+      {mail ? (
+        <div className="p-4">{mail.content}</div>
       ) : (
         <div className="flex items-center justify-center p-4 text-gray-400">
           No Mails :)
