@@ -55,6 +55,16 @@ export async function action({ request, params }: ActionFunctionArgs) {
             },
           });
           break;
+        case "draft":
+          await db.mail.update({
+            where: {
+              id: +mailId,
+            },
+            data: {
+              isDraft: true,
+            },
+          });
+          break;
         default:
           redirect("/");
       }
@@ -74,6 +84,16 @@ export async function action({ request, params }: ActionFunctionArgs) {
           },
           data: {
             isCurrentMail: true,
+          },
+        });
+        break;
+      case "read":
+        await db.mail.update({
+          where: {
+            id: +mailId,
+          },
+          data: {
+            read: true,
           },
         });
         break;
@@ -105,4 +125,52 @@ export async function action({ request, params }: ActionFunctionArgs) {
   return redirect("/");
 }
 
-// async function excute() {}
+/**
+async function executeActionFor(
+    mailId: string,
+    data: { [p: string]: FormDataEntryValue },
+    property: string,
+    db: PrismaClient,
+) {
+  switch (property) {
+    case "isCurrentMail":
+      await db.mail.updateMany({
+        data: {
+          isCurrentMail: false,
+        },
+      });
+
+      await db.mail.update({
+        where: {
+          id: +mailId,
+        },
+        data: {
+          isCurrentMail: true,
+        },
+      });
+      break;
+    case "read":
+      await db.mail.update({
+        where: {
+          id: +mailId,
+        },
+        data: {
+          read: true,
+        },
+      });
+      break;
+    case "flag":
+      await db.mail.update({
+        where: {
+          id: +mailId,
+        },
+        data: {
+          flagged: data.flagged !== "on",
+        },
+      });
+      break;
+    default:
+      redirect("/");
+  }
+}
+ */
