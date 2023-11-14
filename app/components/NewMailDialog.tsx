@@ -22,8 +22,12 @@ export default function NewMailDialog() {
   }, [fetcher.state, setNewMailDialog]);
 
   return newMailDialog ? (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-      <dialog ref={dialogRef} className="h-1/2 w-1/2 rounded" open={true}>
+    <>
+      <dialog
+        ref={dialogRef}
+        className="animate-cleanFadeUp fixed top-1/4 z-50 h-1/2 w-1/2 rounded"
+        open={true}
+      >
         <fetcher.Form
           method="post"
           action="/mail/new"
@@ -98,6 +102,10 @@ export default function NewMailDialog() {
           </fieldset>
         </fetcher.Form>
       </dialog>
-    </div>
+      <div
+        className="fixed inset-0 z-40 flex items-center justify-center bg-black/30"
+        onClick={() => setNewMailDialog(false)}
+      ></div>
+    </>
   ) : null;
 }
