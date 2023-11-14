@@ -51,6 +51,7 @@ export default function NewMailDialog() {
                   aria-label="minimize"
                   className="flex h-3 w-3 items-center justify-center rounded-full border bg-yellow-400"
                   onClick={() => setNewMailDialog(false)}
+                  type="submit"
                 >
                   <span className="invisible hidden text-xs text-gray-600 opacity-0 group-hover:visible group-hover:opacity-100">
                     -
